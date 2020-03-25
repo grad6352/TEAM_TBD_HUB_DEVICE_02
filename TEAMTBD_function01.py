@@ -56,7 +56,7 @@ def greengrass_hello_world_run():
         client.publish(topic="hello/world", queueFullPolicy="AllOrException", payload=data)
         if holdValue in data:
             data.replace(holdValue, '')
-        global holdValue += data
+        holdValue += data
         client.publish(topic="hello/world", queueFullPolicy="AllOrException", payload="TEST")
         #client.publish(topic="hello/world", queueFullPolicy="AllOrException", payload=holdValue)
     except Exception as e:
