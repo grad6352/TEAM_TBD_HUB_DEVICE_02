@@ -39,7 +39,7 @@ my_platform = platform.platform()
 
 holdValue = ''
 
-def greengrass_hello_world_run():
+def greengrass_hello_world_run(holdValue):
     try:
         #if not my_platform:
         #    client.publish(
@@ -56,8 +56,8 @@ def greengrass_hello_world_run():
         client.publish(topic="hello/world", queueFullPolicy="AllOrException", payload=data)
         if holdValue in data:
             data.replace(holdValue, '')
-        holdValue += data
         client.publish(topic="hello/world", queueFullPolicy="AllOrException", payload="TEST")
+        holdValue += data
         #client.publish(topic="hello/world", queueFullPolicy="AllOrException", payload=holdValue)
     except Exception as e:
         logger.error("Failed to publish message: " + repr(e))
