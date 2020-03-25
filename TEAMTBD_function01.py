@@ -14,6 +14,7 @@
 import logging
 import platform
 import sys
+import os
 from threading import Timer
 
 import greengrasssdk
@@ -39,16 +40,19 @@ my_platform = platform.platform()
 
 def greengrass_hello_world_run():
     try:
-        if not my_platform:
-            client.publish(
-                topic="hello/world", queueFullPolicy="AllOrException", payload="Hello world! Sent from Greengrass Core."
-            )
-        else:
-            client.publish(
-                topic="hello/world",
-                queueFullPolicy="AllOrException",
-                payload="Hello world! Sent from " "Greengrass Core running on platform: {}".format(my_platform),
-            )
+        #if not my_platform:
+        #    client.publish(
+        #        topic="hello/world", queueFullPolicy="AllOrException", payload="Hello world! Sent from Greengrass Core."
+        #    )
+        #else:
+        #    client.publish(
+        #        topic="hello/world",
+        #        queueFullPolicy="AllOrException",
+        #        payload="Hello world! Sent from " "Greengrass Core running on platform: {}".format(my_platform),
+        #    )
+        with open('/home/pi/textlog.txt', 'r') as logFile:
+            data = logFile.read()
+        client.publish(topic="hello/world", queueFullPolicy="AllOrException", payload=data)
     except Exception as e:
         logger.error("Failed to publish message: " + repr(e))
 
