@@ -50,7 +50,7 @@ def greengrass_hello_world_run():
         #        queueFullPolicy="AllOrException",
         #        payload="Hello world! Sent from " "Greengrass Core running on platform: {}".format(my_platform),
         #    )
-        with open('/home/pi/textlog.txt', 'r') as logFile:
+        with open('/home/pi/textlog.txt', 'r+') as logFile:
             data = logFile.read()
         client.publish(topic="hello/world", queueFullPolicy="AllOrException", payload=data)
     except Exception as e:
