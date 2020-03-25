@@ -37,8 +37,19 @@ my_platform = platform.platform()
 # hitting the execution timeout of three seconds.  This is expected as
 # this function never returns a result.
 
-def greengrass_hello_world_run(holdValue):
+
+def greengrass_hello_world_run():
     try:
+        #if not my_platform:
+        #    client.publish(
+        #        topic="hello/world", queueFullPolicy="AllOrException", payload="Hello world! Sent from Greengrass Core."
+        #    )
+        #else:
+        #    client.publish(
+        #        topic="hello/world",
+        #        queueFullPolicy="AllOrException",
+        #        payload="Hello world! Sent from " "Greengrass Core running on platform: {}".format(my_platform),
+        #    )
         with open('/home/pi/button_demo_buffer.txt', 'r') as logFile:
             data = logFile.read()
         client.publish(topic="hello/world", queueFullPolicy="AllOrException", payload=data)
