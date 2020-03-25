@@ -55,8 +55,8 @@ def greengrass_hello_world_run():
             data = logFile.read()
         client.publish(topic="hello/world", queueFullPolicy="AllOrException", payload=data)
         if holdValue in data:
+            data.replace(holdValue, '')
             client.publish(topic="hello/world", queueFullPolicy="AllOrException", payload="TEST")
-            #data.replace(holdValue, '')
         #global holdValue += data
         #client.publish(topic="hello/world", queueFullPolicy="AllOrException", payload=holdValue)
     except Exception as e:
