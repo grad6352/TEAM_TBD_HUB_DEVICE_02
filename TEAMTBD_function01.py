@@ -37,6 +37,7 @@ my_platform = platform.platform()
 # hitting the execution timeout of three seconds.  This is expected as
 # this function never returns a result.
 
+holdValue = ''
 
 def greengrass_hello_world_run():
     try:
@@ -52,6 +53,12 @@ def greengrass_hello_world_run():
         #    )
         with open('/home/pi/textlog.txt', 'r') as logFile:
             data = logFile.read()
+        if not holdValue:
+            global holdValue = data
+        else:
+            if holdValue in data:
+                data.replace(holdValue, '')
+            holdValue += data
         client.publish(topic="hello/world", queueFullPolicy="AllOrException", payload=data)
     except Exception as e:
         logger.error("Failed to publish message: " + repr(e))
