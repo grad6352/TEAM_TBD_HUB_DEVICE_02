@@ -5,7 +5,7 @@ from datetime import date
 from threading import Timer
 import os
 
-pin_list = [23, 25]
+pin_list = [23, 25, 2]
 sensor_list = ["sensor01", "sensor02"]
 
 def gpio_setup(list):
@@ -39,6 +39,18 @@ def sensor_setup(sensorList):
 		f0 = open(bufferStr, 'w').close()
 		f1 = open(archiveStr, 'w').close()
 		
+def sensor01_callback(channel):
+	time = datetime.now()
+	timeStr = time.strftime("%m/%d/%Y, %H:%M:%S")
+	f = open('sensor01_buffer.txt', 'w').close()
+	with open('sensor01_buffer.txt', 'a') as file1_0:
+		file1_0.write("Timestamp: ")
+		file1_0.write(timeStr)	
+	with open('sensor01_archive.txt', 'a') as file1_1:
+		file1_1.write("Timestamp: ")
+		file1_1.write(timeStr)
+		file1_1.write('\n')
+		
 def sensor02_callback(channel):
 	time = datetime.now()
 	timeStr = time.strftime("%m/%d/%Y, %H:%M:%S")
@@ -56,20 +68,12 @@ sensor_setup(sensorList=sensor_list)
 timer_setup()
 
 GPIO.add_event_detect(25, GPIO.FALLING, callback=sensor02_callback, bouncetime=300)
+GPIO.add_event_detect(23, GPIO.FALLING, callback=sensor01_callback, bouncetime=300)
 		
 try:
 	while True:
-		GPIO.wait_for_edge(23, GPIO.FALLING)
-		time = datetime.now()
-		timeStr = time.strftime("%m/%d/%Y, %H:%M:%S")
-		f = open('sensor01_buffer.txt', 'w').close()
-		with open('sensor01_buffer.txt', 'a') as file1_0:
-			file1_0.write("Timestamp: ")
-			file1_0.write(timeStr)	
-		with open('sensor01_archive.txt', 'a') as file1_1:
-			file1_1.write("Timestamp: ")
-			file1_1.write(timeStr)
-			file1_1.write('\n')
+		GPIO.wait_for_edge(2, GPIO.RISING)
+		print("stopping program...")		
 except KeyboardInterrupt:
 	GPIO.cleanup()
 GPIO.cleanup()
