@@ -19,8 +19,9 @@ def renameArchive(sensorList):
 
 	for sensor in sensorList:
 		archiveStr = sensor + "_archive.txt"
-		newArchiveStr = timestampStr + "_archive_" + sensor + ".txt"
-		os.rename(archiveStr, newArchiveStr)
+		if(os.path.getsize(archiveStr) > 0):
+			newArchiveStr = timestampStr + "_archive_" + sensor + ".txt"
+			os.rename(archiveStr, newArchiveStr)
 
 def timer_setup():
 	xTime = datetime.today()
