@@ -5,7 +5,7 @@ from datetime import date
 from threading import Timer
 import os
 
-pin_list = [23, 25, 2]
+pin_list = [23, 24, 25]
 sensor_list = ["sensor01", "sensor02"]
 
 def gpio_setup(list):
@@ -73,7 +73,7 @@ GPIO.add_event_detect(23, GPIO.FALLING, callback=sensor01_callback, bouncetime=3
 		
 try:
 	while True:
-		GPIO.wait_for_edge(2, GPIO.RISING)
+		GPIO.wait_for_edge(24, GPIO.FALLING)
 		print("stopping program...")		
 except KeyboardInterrupt:
 	GPIO.cleanup()
