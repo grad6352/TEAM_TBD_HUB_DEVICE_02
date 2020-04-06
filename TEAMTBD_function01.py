@@ -50,11 +50,16 @@ def greengrass_hello_world_run():
         #        queueFullPolicy="AllOrException",
         #        payload="Hello world! Sent from " "Greengrass Core running on platform: {}".format(my_platform),
         #    )
-        with open('/home/pi/button_demo_buffer.txt', 'r') as logFile:
-            data = logFile.read()
-        if data != greengrass_hello_world_run.previous_value:
-            client.publish(topic="hello/world", queueFullPolicy="AllOrException", payload=data)
-            greengrass_hello_world_run.previous_value = data
+        
+        sensors = ["sensor01", "sensor02"]
+        
+        for sensor in sensors:
+            sensorFileName = sensor + "_buffer.txt"
+            with open(sensorFileName, 'r') as logFile:
+                data = logFile.read()
+            if data != greengrass_hello_world_run.previous_value:
+                client.publish(topic="teamtbd/hub01", queueFullPolicy="AllOrException", payload=data)
+                greengrass_hello_world_run.previous_value = data
     except Exception as e:
         logger.error("Failed to publish message: " + repr(e))
 
