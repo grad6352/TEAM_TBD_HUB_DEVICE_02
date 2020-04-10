@@ -7,6 +7,7 @@ import os
 
 pin_list = [23, 24, 25]
 sensor_list = ["sensor01", "sensor02"]
+sensor_names = ["doorsw_01", "lightsw_01"]
 
 def gpio_setup(list):
 	GPIO.setmode(GPIO.BCM)
@@ -45,24 +46,32 @@ def sensor01_callback(channel):
 	timeStr = time.strftime("%m/%d/%Y, %H:%M:%S")
 	f = open('sensor01_buffer.txt', 'w').close()
 	with open('sensor01_buffer.txt', 'a') as file1_0:
-		file1_0.write("Timestamp: ")
+		file1_0.write("Sensor: ")
+		file1_0.write(sensor_names[0])
+		file1_0.write("\nTimestamp: ")
 		file1_0.write(timeStr)	
 	with open('sensor01_archive.txt', 'a') as file1_1:
-		file1_1.write("Timestamp: ")
+		file1_1.write("Sensor: ")
+		file1_1.write(sensor_names[0])
+		file1_1.write("\nTimestamp: ")
 		file1_1.write(timeStr)
-		file1_1.write('\n')
+		file1_1.write('\n\n')
 		
 def sensor02_callback(channel):
 	time = datetime.now()
 	timeStr = time.strftime("%m/%d/%Y, %H:%M:%S")
 	f = open('sensor02_buffer.txt', 'w').close()
 	with open('sensor02_buffer.txt', 'a') as file2_0:
-		file2_0.write("Timestamp: ")
+		file2_0.write("Sensor: ")
+		file2_0.write(sensor_names[1])
+		file2_0.write("\nTimestamp: ")
 		file2_0.write(timeStr)
 	with open('sensor02_archive.txt', 'a') as file2_1:
-		file2_1.write("Timestamp: ")
+		file2_1.write("Sensor: ")
+		file2_1.write(sensor_names[1])
+		file2_1.write("\nTimestamp: ")
 		file2_1.write(timeStr)
-		file2_1.write('\n')
+		file2_1.write('\n\n')
 
 gpio_setup(list=pin_list)
 sensor_setup(sensorList=sensor_list)
