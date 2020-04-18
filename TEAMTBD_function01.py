@@ -51,8 +51,8 @@ def greengrass_hello_world_run():
         #        payload="Hello world! Sent from " "Greengrass Core running on platform: {}".format(my_platform),
         #    )
         with open('/home/pi/sensor01_buffer.txt', 'r') as log:
-            data = log.read()
-        #data = "asdfjkl;"
+            data1 = log.read()
+        data = "asdfjkl;"
         #if data != greengrass_hello_world_run.previous_value:
         client.publish(topic="teamtbd/hub", queueFullPolicy="AllOrException", payload=data)
         #    greengrass_hello_world_run.previous_value = data
