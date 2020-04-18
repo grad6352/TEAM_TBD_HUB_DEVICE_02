@@ -53,11 +53,11 @@ def greengrass_hello_world_run():
         sensors = ["sensor01", "sensor02"]
         with open('/home/pi/sensor02_buffer.txt', 'r') as log:
             data1 = log.read()
-        if not data1:
-            data = "asdfjkl;"
-            client.publish(topic="teamtbd/hub", queueFullPolicy="AllOrException", payload=data)
+        if data1 != greengrass_hello_world_run.previous_value:
+            #data = "asdfjkl;"
+            #client.publish(topic="teamtbd/hub", queueFullPolicy="AllOrException", payload=data)
         #if data != greengrass_hello_world_run.previous_value:
-        else:
+        #else:
             client.publish(topic="teamtbd/hub", queueFullPolicy="AllOrException", payload=data1)
         #    greengrass_hello_world_run.previous_value = data
     except Exception as e:
@@ -68,7 +68,7 @@ def greengrass_hello_world_run():
 
 
 # Start executing the function above
-#greengrass_hello_world_run.previous_value = ''
+greengrass_hello_world_run.previous_value = ''
 
 greengrass_hello_world_run()
 
