@@ -38,13 +38,8 @@ my_platform = platform.platform()
 # this function never returns a result.
 def openSensorFile(filename):
     with open(filename, 'r') as log:
-        data = log.read
+        data = log.read()
     return data
-    
-def publishData(data, prev_val):
-    if data != greengrass_hello_world_run.initial_value_0:
-        if data != prev_val:
-            client.publish(topic="teamtbd/hub", queueFullPolicy="AllOrException", payload=data)
 
 def greengrass_hello_world_run():
     try:
@@ -63,8 +58,12 @@ def greengrass_hello_world_run():
         data1 = openSensorFile(sensorFiles[0])
         data2 = openSensorFile(sensorFiles[1])
         
-        publishData(data1, greengrass_hello_world_run.previous_value_1)
-        publishData(data2, greengrass_hello_world_run.previous_value_2)
+        if data1 != greengrass_hello_world_run.initial_value_0:
+            if data1 != greengrass_hello_world_run.previous_value_1:
+                client.publish(topic="teamtbd/hub", queueFullPolicy="AllOrException", payload=data1)
+        if data2 != greengrass_hello_world_run.initial_value_0:
+            if data2 != greengrass_hello_world_run.previous_value_2:
+                client.publish(topic="teamtbd/hub", queueFullPolicy="AllOrException", payload=data2)
         
         greengrass_hello_world_run.previous_value_1 = data1
         greengrass_hello_world_run.previous_value_2 = data2
