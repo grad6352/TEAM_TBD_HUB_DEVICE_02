@@ -50,11 +50,9 @@ def greengrass_hello_world_run():
         #        queueFullPolicy="AllOrException",
         #        payload="Hello world! Sent from " "Greengrass Core running on platform: {}".format(my_platform),
         #    )
-        sensors = ["sensor01", "sensor02"]
-        for sensor in sensors:
-            buffer = '/home/pi/' + sensor + '_buffer.txt'
-            
-            with open(buffer, 'r') as log:
+        sensorFiles = ["/home/pi/sensor01_buffer.txt", "/home/pi/sensor02_buffer.txt"]
+        for sensor in sensorFiles:
+            with open(sensor, 'r') as log:
                 data1 = log.read()
             if data1 != greengrass_hello_world_run.previous_value_1:
                 if data1 != greengrass_hello_world_run.previous_value_2:
