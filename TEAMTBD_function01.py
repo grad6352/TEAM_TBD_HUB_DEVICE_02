@@ -52,10 +52,10 @@ def greengrass_hello_world_run():
         #    )
         #with open('/home/pi/sensor01_buffer.txt', 'r') as logFile:
             #data = logFile.read()
-        data = "a"
-        if data != greengrass_hello_world_run.previous_value:
-            client.publish(topic="teamtbd/", queueFullPolicy="AllOrException", payload=data)
-            greengrass_hello_world_run.previous_value = data
+        data = "asdfjkl;"
+        #if data != greengrass_hello_world_run.previous_value:
+        client.publish(topic="teamtbd/", queueFullPolicy="AllOrException", payload=data)
+        #    greengrass_hello_world_run.previous_value = data
     except Exception as e:
         logger.error("Failed to publish message: " + repr(e))
 
@@ -64,7 +64,7 @@ def greengrass_hello_world_run():
 
 
 # Start executing the function above
-greengrass_hello_world_run.previous_value = ''
+#greengrass_hello_world_run.previous_value = ''
 
 greengrass_hello_world_run()
 
