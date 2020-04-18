@@ -54,7 +54,7 @@ def greengrass_hello_world_run():
             #data = logFile.read()
         data = "asdfjkl;"
         #if data != greengrass_hello_world_run.previous_value:
-        client.publish(topic="teamtbd/", queueFullPolicy="AllOrException", payload=data)
+        client.publish(topic="teamtbd/hub", queueFullPolicy="AllOrException", payload=data)
         #    greengrass_hello_world_run.previous_value = data
     except Exception as e:
         logger.error("Failed to publish message: " + repr(e))
