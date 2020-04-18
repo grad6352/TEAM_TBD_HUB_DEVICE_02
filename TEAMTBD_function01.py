@@ -50,7 +50,8 @@ def greengrass_hello_world_run():
         #        queueFullPolicy="AllOrException",
         #        payload="Hello world! Sent from " "Greengrass Core running on platform: {}".format(my_platform),
         #    )
-        with open('/home/pi/sensor01_buffer.txt', 'r') as log:
+        sensors = ["sensor01", "sensor02"]
+        with open('/home/pi/sensor02_buffer.txt', 'r') as log:
             data1 = log.read()
         if not data1:
             data = "asdfjkl;"
