@@ -54,7 +54,7 @@ def greengrass_hello_world_run():
         for sensor in sensors:
             buffer = '/home/pi/' + sensor + '_buffer.txt'
             
-            with open('/home/pi/sensor02_buffer.txt', 'r') as log:
+            with open(buffer, 'r') as log:
                 data1 = log.read()
             if data1 != greengrass_hello_world_run.previous_value_1:
                 if data1 != greengrass_hello_world_run.previous_value_2:
@@ -64,6 +64,8 @@ def greengrass_hello_world_run():
                             greengrass_hello_world_run.previous_value_1 = data1
                         else if sensor == sensors[1]
                             greengrass_hello_world_run.previous_value_2 = data1
+                    else
+                        client.publish(topic="teamtbd/hub", queueFullPolicy="AllOrException", payload="foo")
         #    greengrass_hello_world_run.previous_value = data
     except Exception as e:
         logger.error("Failed to publish message: " + repr(e))
