@@ -36,7 +36,15 @@ my_platform = platform.platform()
 # If you execute a 'test' on the Lambda Console, this test will fail by
 # hitting the execution timeout of three seconds.  This is expected as
 # this function never returns a result.
-
+def openSensorFile(filename):
+    with open(filename, 'r') as log:
+        data = log.read
+    return data
+    
+def publishData(data, prev_val):
+    if data != greengrass_hello_world_run.initial_value_0:
+        if data != prev_val:
+            client.publish(topic="teamtbd/hub", queueFullPolicy="AllOrException", payload=data)
 
 def greengrass_hello_world_run():
     try:
@@ -51,19 +59,29 @@ def greengrass_hello_world_run():
         #        payload="Hello world! Sent from " "Greengrass Core running on platform: {}".format(my_platform),
         #    )
         sensorFiles = ["/home/pi/sensor01_buffer.txt", "/home/pi/sensor02_buffer.txt"]
-        for sensor in sensorFiles:
-            with open(sensor, 'r') as log:
-                data1 = log.read()
-            if data1 != greengrass_hello_world_run.previous_value_1:
-                if data1 != greengrass_hello_world_run.previous_value_2:
-                    if data1 != greengrass_hello_world_run.initial_value:
-                        client.publish(topic="teamtbd/hub", queueFullPolicy="AllOrException", payload=data1)
-                        if sensor == sensors[0]:
-                            greengrass_hello_world_run.previous_value_1 = data1
-                        else if sensor == sensors[1]
-                            greengrass_hello_world_run.previous_value_2 = data1
-                    else
-                        client.publish(topic="teamtbd/hub", queueFullPolicy="AllOrException", payload="foo")
+        
+        data1 = openSensorFile(sensorFiles[0])
+        data2 = openSensorFile(sensorFiles[1])
+        
+        publishData(data1, greengrass_hello_world_run.previous_value_1)
+        publishData(data2, greengrass_hello_world_run.previous_value_2)
+        
+        greengrass_hello_world_run.previous_value_1 = data1
+        greengrass_hello_world_run.previous_value_2 = data2
+        
+        #for sensor in sensorFiles:
+        #    with open(sensor, 'r') as log:
+        #        data1 = log.read()
+        #    if data1 != greengrass_hello_world_run.previous_value_1:
+        #        if data1 != greengrass_hello_world_run.previous_value_2:
+        #            if data1 != greengrass_hello_world_run.initial_value:
+        #                client.publish(topic="teamtbd/hub", queueFullPolicy="AllOrException", payload=data1)
+        #                if sensor == sensors[0]:
+        #                    greengrass_hello_world_run.previous_value_1 = data1
+        #                else if sensor == sensors[1]
+        #                    greengrass_hello_world_run.previous_value_2 = data1
+        #            else
+        #                client.publish(topic="teamtbd/hub", queueFullPolicy="AllOrException", payload="foo")
         #    greengrass_hello_world_run.previous_value = data
     except Exception as e:
         logger.error("Failed to publish message: " + repr(e))
@@ -75,7 +93,7 @@ def greengrass_hello_world_run():
 # Start executing the function above
 greengrass_hello_world_run.previous_value_1 = ''
 greengrass_hello_world_run.previous_value_2 = ''
-greengrass_hello_world_run.initial_value = ''
+greengrass_hello_world_run.initial_value_0 = ''
 
 greengrass_hello_world_run()
 
